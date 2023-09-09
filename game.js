@@ -139,12 +139,10 @@ function promptInput(rl) {
 }
 
 function printHelp() {
-  console.log("Valid commands:\n");
+  console.log("Available commands:");
   console.log("  Type 'r' for Rock");
   console.log("  Type 'p' for Paper");
   console.log("  Type 's' for Scissors");
-  console.log("  Type 'q' to quit");
-  console.log("  Type 'h' for help\n");
 }
 
 /****************************** INITIALIZE GAME ******************************/
