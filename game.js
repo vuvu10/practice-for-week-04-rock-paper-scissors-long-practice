@@ -1,5 +1,6 @@
 const readline = require('readline');
 
+
 /********************************* CONSTANTS *********************************/
 const VALID_MOVES = {
   r: {
@@ -25,13 +26,13 @@ let ties = 0;
 
 /***************************** HELPER FUNCTIONS ******************************/
 function printHelp() {
-  // Your code here
-  console.log("Available commands: ");
-  console.log("  r: for Rock");
-  console.log("  p: for Paper");
-  console.log("  s: for Scissors");
-  //console.log(" Type 'q' to quit");
-  //console.log(" Type 'h' for a list of valid commands\n " );
+
+  console.log("  Type 'r' for Rock");
+  console.log("  Type 'p' for Paper");
+  console.log("  Type 's' for Scissors");
+  console.log(" Type 'q' to quit");
+  console.log(" Type 'h' for a list of valid commands\n ");
+
 
 }
 
@@ -67,34 +68,21 @@ function getCPUMove() {
 }
 
 function processMove(cmd, cpu) {
-  if (cpu === 'r') {
-    console.log(`You played ${cmd}. CPU played ${cpu}`);
-    if (cmd === 'r') {
-      console.log("You tie.");
-    } else if (cmd === 'p') {
-      console.log("You win!");
-    } else if (cmd === 's') {
-      console.log("You lose...");
-    }
-  } else if (cpu === 'p') {
-    console.log(`You played ${cmd}. CPU played ${cpu}`);
-    if (cmd === 'r') {
-      console.log("You lose...");
-    } else if (cmd === 'p') {
-      console.log("You tie.");
-    } else if (cmd === 's') {
-      console.log("You win!");
-    }
-  } else if (cpu === 's') {
-    console.log(`You played ${cmd}. CPU played ${cpu}`);
-    if (cmd === 'r') {
-      console.log("You win!");
-    } else if (cmd === 'p') {
-      console.log("You lose...");
-    } else if (cmd === 's') {
-      console.log("You tie.");
-    }
+  console.log(`You pick ${cmd}, computer picks ${cpu}.`);
+
+  const result = getWinner(cmd, cpu);
+
+  if (result === 0) {
+    console.log("You tie.\n");
+    ties++;
+  } else if (result === 1) {
+    console.log("You win!\n");
+    wins++;
+  } else {
+    console.log("You lose...\n");
+    losses++;
   }
+
 }
 
 
@@ -108,12 +96,15 @@ function promptInput(rl) {
     if (cmd === 'h') {
       console.log("\nHelp:\n");
       printHelp();
+
     } else if (cmd === 'q') {
       rl.close();
       return;
+
     } else if (VALID_MOVES[cmd]){
-      let cpu = getCPUMove();
+      const cpu = getCPUMove();
       processMove(cmd, cpu);
+
     } else {
       console.log("\nInvalid command.\n");
       printHelp();
@@ -124,12 +115,7 @@ function promptInput(rl) {
   });
 }
 
-function printHelp() {
-  console.log("Available commands:");
-  console.log("  Type 'r' for Rock");
-  console.log("  Type 'p' for Paper");
-  console.log("  Type 's' for Scissors");
-}
+
 
 /****************************** INITIALIZE GAME ******************************/
 function initializeGame() {
@@ -138,12 +124,7 @@ function initializeGame() {
     output: process.stdout
   });
   console.log("Welcome to Rock/Paper/Scissors\n");
-  console.log("  Type 'r' for Rock");
-  console.log("  Type 'p' for Paper");
-  console.log("  Type 's' for Scissors");
-  console.log("  Type 'q' to quit");
-  console.log("  Type 'h' for a list of valid commands\n");
-
+  printHelp();
   promptInput(rl);
 }
 
