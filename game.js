@@ -27,10 +27,10 @@ let ties = 0;
 /***************************** HELPER FUNCTIONS ******************************/
 function printHelp() {
 
-  console.log("  Type 'r' for Rock");
-  console.log("  Type 'p' for Paper");
-  console.log("  Type 's' for Scissors");
-  console.log(" Type 'q' to quit");
+  console.log("  Type 'r' for Rock ");
+  console.log("  Type 'p' for Paper ");
+  console.log("  Type 's' for Scissors ");
+  console.log(" Type 'q' to quit ");
   console.log(" Type 'h' for a list of valid commands\n ");
 
 
@@ -62,13 +62,40 @@ function getCPUMove() {
 
   const validMoveKeys = Object.keys(VALID_MOVES);
   const randomIndex = Math.floor(Math.random() * validMoveKeys.length);
-  const cpu = validMoveKeys[randomIndex];
-  return cpu;
+  //const cpu = validMoveKeys[randomIndex];
+  //return cpu;
+  return validMoveKeys[randomIndex];
 
 }
 
 function processMove(cmd, cpu) {
-  console.log(`You pick ${cmd}, computer picks ${cpu}.`);
+
+  if (cmd === 'h') {
+    printHelp();
+
+  } else if (cmd === 'q') {
+
+  } else if (VALID_MOVES[cmd]) {
+    console.log(`You pick ${cmd}, computer picks ${cpu}.`);
+    if (cmd === cpu) {
+      console.log("You tie.\n");
+      ties++;
+    } else if (VALID_MOVES[cmd].winsAgainst === cpu) {
+      console.log("You win!\n");
+      wins++;
+
+    } else {
+      console.log("You lose...\n");
+      losses++;
+    }
+  } else {
+    console.log("\nInvalid command.\n");
+    printHelp();
+  }
+
+
+
+ /*  console.log(`You pick ${cmd}, computer picks ${cpu}.`);
 
   const result = getWinner(cmd, cpu);
 
@@ -81,7 +108,7 @@ function processMove(cmd, cpu) {
   } else {
     console.log("You lose...\n");
     losses++;
-  }
+  } */
 
 }
 
@@ -95,19 +122,49 @@ function promptInput(rl) {
 
     if (cmd === 'h') {
       console.log("\nHelp:\n");
-      printHelp();
+
+      console.log("  Type 'r' for Rock ");
+      console.log("  Type 'p' for Paper ");
+      console.log("  Type 's' for Scissors ");
+      console.log(" Type 'q' to quit ");
+      console.log(" Type 'h' for a list of valid commands\n ");
+
+
 
     } else if (cmd === 'q') {
       rl.close();
       return;
 
     } else if (VALID_MOVES[cmd]){
-      const cpu = getCPUMove();
-      processMove(cmd, cpu);
+      const validMoveKeys = Object.keys(VALID_MOVES);
+      const randomIndex = Math.floor(Math.random() * validMoveKeys.length);
+      const cpu = validMoveKeys[randomIndex];
+
+      console.log(`You pick ${cmd}, computer picks ${cpu}.`);
+
+    if (cmd === cpu) {
+      console.log("You tie.\n");
+      ties++;
+    }
+
+    else if(VALID_MOVES[cmd].winsAgainst === cpu) {
+      console.log("You win!\n");
+      wins++;
 
     } else {
+      console.log("You lose...\n");
+      losses++;
+
+    }
+
+  } else {
       console.log("\nInvalid command.\n");
-      printHelp();
+      console.log("  Type 'r' for Rock ");
+      console.log("  Type 'p' for Paper ");
+      console.log("  Type 's' for Scissors ");
+      console.log(" Type 'q' to quit ");
+      console.log(" Type 'h' for a list of valid commands\n ");
+
 
     }
 
@@ -124,7 +181,9 @@ function initializeGame() {
     output: process.stdout
   });
   console.log("Welcome to Rock/Paper/Scissors\n");
+
   printHelp();
+
   promptInput(rl);
 }
 
